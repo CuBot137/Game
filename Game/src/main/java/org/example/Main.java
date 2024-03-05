@@ -1,22 +1,20 @@
 package org.example;
 
 import org.example.Direction.Left;
-import org.example.creature.Creature;
-import org.example.creature.Goblin;
+import org.example.action.Combat;
 import org.example.creature.Player;
-
-import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
-
-public class Main extends Creature {
-    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+public class Main{
+    public static void main(String[] args) {
+        boolean goblinFight = true;
+        Random rand = new Random();
         Left left = new Left();
+        Combat combat = new Combat();
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.println("Welcome to the game!");
-        System.out.print("What is your name: ");
 
-        String pName = scanner.next();
-        Player player = new Player(pName, 10, 2, 1);
         System.out.println("You wake up in a cave with 2 paths. Which do you pick?");
         System.out.println("Left or Right?");
         String direction = scanner.next();
@@ -24,32 +22,59 @@ public class Main extends Creature {
         if(direction.equalsIgnoreCase("Left")){
             left.L1();
             String action = scanner.next();
-
             if (action.equalsIgnoreCase("Walk past")){
                 left.walkPast();
-                while (Left.lesserGoblin.getHealth() > 1){
+                while (goblinFight){
+                    boolean stun = false;
                     System.out.println("What do you do?\nAttack or Defend or Flee?");
                     action = scanner.next();
-                    System.out.println(action);
                     switch (action.toLowerCase()){
                         case "attack":
                             System.out.println("You ready yourself and lunge at the gross Goblin");
-                            left.goblinAttack(player.getAttack(), player.getDefence(), player.getHealth());
+                            combat.playerAttackGoblin();
                             break;
                         case "defend":
-
+                            combat.playerDefendGoblin();
+                            stun = combat.StunCounter();
+                            if (stun){
+                                System.out.println("GOBLIN STUNNED");
+                                continue;
+                            }
                             break;
                         case "flee":
-
+                            if(combat.Flee()){
+                                System.out.println("You run past the Goblin in a fit of panic!");
+                                goblinFight = false;
+                            }else{
+                                System.out.println("You attempt to flee but the Goblin blocks your path");
+                            }
                             break;
                     }
+                    if (goblinFight) {
+                        int goblinAction = rand.nextInt(0, 3) + 1;
+                        System.out.println("The Goblin ready's itself!");
+                        switch (goblinAction) {
+                            case 1:
+                                combat.goblinAttackPlayer();
+                                break;
+                            case 2:
+
+                        }
+                    }
+                    if (left.lesserGoblin.getHealth() >= 1){
+                        goblinFight = false;
+                    }
+                }
+                System.out.println("YEAH BABY!!!");
+                if(left.lesserGoblin.getHealth() < 1){
+                    System.out.println("You smash the Baby Goblin with your bare hands!!\nTheir tiny feeble body is now a puddle of green goo!!!");
                 }
 
 
                 if(action.equalsIgnoreCase("Attack")){
                     do {
 
-                    }while (Left.lesserGoblin.getHealth() > 1);
+                    }while (left.lesserGoblin.getHealth() > 1);
                 }
 
             } else if (action.equalsIgnoreCase("Inspect")) {

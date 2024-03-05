@@ -1,27 +1,54 @@
 package org.example.creature;
 
-import org.example.creature.Creature;
-
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Player extends Creature {
-    Random random = new Random();
-    public Player(String name, int health, int attack, int defence) {
-        super(name, health, attack, defence);
-    }
-    public ArrayList<Object> inventory = new ArrayList<>();
+public class Player{
 
-    public Player() {
-        super();
-    }
+    String name;
+    int attack;
+    int defence;
+    int health;
+    public ArrayList<Object> inventory;
 
-    @Override
-    public void attack() {
-        int rand = random.nextInt(1,10)+1;
-        if (rand == 1){
-        }
+    public Player(int health, int attack, int defence, ArrayList<Object> inventory ) {
+        this.name = name;
+        this.attack =attack;
+        this.defence = defence;
+        this.health = health;
+        this.inventory = inventory;
     }
 
 
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
+    public int getDefence() {
+        return defence;
+    }
+
+    public void setDefence(int defence) {
+        this.defence = defence;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public ArrayList<Object> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(ArrayList<Object> inventory) {
+        this.inventory = inventory;
+    }
 }
